@@ -14,61 +14,82 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
-.background svg.bg-1  {
-    /* Set rules to fill background */
+.background svg.bg-1, 
+.background svg.bg-2, 
+.background svg.bg-3 {
     min-height: 100%;
     min-width: 1024px;
-      
-    /* Set up proportionate scaling */
     width: 100%;
     height: 100vh;
-      
-    /* Set up positioning */
     position: fixed;
+}
+
+.background svg.bg-1  {
     bottom: -155px;
     left: 0px;
-}
-.background svg.bg-2  {
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 1024px;
-      
-    /* Set up proportionate scaling */
-    width: 100%;
-    height: 100vh;
-      
-    /* Set up positioning */
-    position: fixed;
-    bottom: -10px;
-    left: 0px;
-}
-
-.background svg.bg-3  {
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 1024px;
-      
-    /* Set up proportionate scaling */
-    width: 100%;
-    height: 100vh;
-      
-    /* Set up positioning */
-    position: fixed;
-    bottom: -100px;
-    left: 0px;
-}
-
-.bg-1 {
     z-index: -1;
 }
-
-.bg-2 {
+.background svg.bg-2  {
+    bottom: -10px;
+    left: 0px;
     z-index: -3;
 }
 
-.bg-3 {
+.background svg.bg-3  {
+    bottom: -100px;
+    left: 0px;
     z-index: -5;
 }
+
+/* Cloud Animations */
+@keyframes animateCloudOne {
+    from { transform: translate(-500px, 300px); }
+    to   { transform: translate(1200px, 300px); }
+}
+@keyframes animateCloudTwo {
+    from { transform: translate(-500px, 0px); }
+    to   { transform: translate(1200px, 0px); }
+}
+@keyframes animateCloudThree {
+    from { transform: translate(-500px, -400px); }
+    to   { transform: translate(1200px, -400px); }
+}
+@keyframes animateCloudFour {
+    from { transform: translate(-500px, -600px); }
+    to   { transform: translate(1200px, -600px); }
+}
+.c1 {
+    animation: animateCloudOne 30s linear infinite;
+    animation-delay: 10s;
+    animation-fill-mode: initial; 
+    z-index: 0;
+    position: relative;
+    opacity: .85;
+}
+.c2 {
+    animation: animateCloudTwo 30s linear infinite;
+    animation-fill-mode: initial; 
+    z-index: -2;
+    position: relative;
+    opacity: .85;
+}
+.c3 {
+    animation: animateCloudThree 30s linear infinite;
+    animation-delay: 20s;
+    animation-fill-mode: initial; 
+    z-index: -4;
+    position: relative;
+    opacity: .85;
+}
+.c4 {
+    animation: animateCloudFour 30s linear infinite;
+    animation-delay:35s;
+    animation-fill-mode: initial; 
+    z-index: -6;
+    position: relative;
+    opacity: .85;
+}
+/* End Cloud Animations */
 
 .logo {
     width: 50vw;
