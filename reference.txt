@@ -1,0 +1,35 @@
+aqi: 0 - 50
+airPollutionLevel: Good
+healthImplications: Air quality is considered satisfactory, and air pollution poses little or no risk
+.bg-1 path fill:
+.bg-2 path fill:
+.bg-3 path fill: 
+background-color:
+cloud color: 
+
+aqi: 51 -100
+airPollutionLevel: Moderate
+healthImplications: Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution
+.bg-1 path fill:
+.bg-2 path fill:
+.bg-3 path fill: 
+background-color:
+cloud color: 
+
+aqi: 101-150
+airPollutionLevel: Unhealthy for Sensitive Groups
+healthImplications: Members of sensitive groups may experience health effects. The general public is not likely to be affected
+.bg-1 path fill:
+.bg-2 path fill:
+.bg-3 path fill: 
+background-color:
+cloud color: 
+
+aqi: 151-200
+airPollutionLevel: Unhealthy
+healthImplications: Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects
+.bg-1 path fill:
+.bg-2 path fill:
+.bg-3 path fill: 
+background-color:
+cloud color: 
