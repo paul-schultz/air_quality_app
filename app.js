@@ -1,5 +1,6 @@
 function apiCall() {
   // DOM elements
+  let forecastHeader = document.querySelector('#forecast-header'); 
   let aqiDisplay = document.querySelector('#aqi-display');
   let cityDisplay = document.querySelector('#city-display');
   let cigDisplay = document.querySelector('#cig-display');
@@ -10,6 +11,8 @@ function apiCall() {
   let bgFillThree = document.querySelector('#bg-fill-3');
   let body = document.querySelector('#body');
   let cloudFill = document.getElementsByClassName('cloud-fill');
+  let foreCard = document.getElementsByClassName('fore-card');
+  let foreDay = document.getElementsByClassName('fore-day');
   
   // Input
   var input = document.querySelector('#city-name').value;
@@ -22,9 +25,37 @@ function apiCall() {
       const aqiValue = result.data.data.aqi;
       var cig = (Math.round((aqiValue / 22) * 100) / 100).toFixed(2);
       
+      forecastHeader.textContent = "Forecast:"
       cityDisplay.textContent = `${input}`;
       aqiDisplay.textContent = `AQI: ${aqiValue}`;
       cigDisplay.textContent = `A day's worth of exposure to air with an AQI ${aqiValue} is the equivalent of smoking ${cig} cigarettes.`;
+
+      for (var i = 0, j = 2; i <= foreCard.length - 1; i++, j++) {
+        // aqi forecast value
+        var aqiForecast = result.data.data.forecast.daily.pm25[j].avg
+        // date values
+        var date = result.data.data.forecast.daily.pm25[j].day
+        var dateSplit = date.split("-")
+        var month = dateSplit[1];
+        var day = dateSplit[2];
+
+        foreDay[i].textContent = `${month}/${day}`
+
+        foreCard[i].textContent = `${aqiForecast}`;
+        if ( 0 <= aqiForecast && aqiForecast <= 50 ) {
+          foreCard[i].style.backgroundColor = "#066613"
+          foreCard[i].style.color = "#fff";
+        } else if ( 51 <= aqiForecast && aqiForecast <= 100 ) {
+          foreCard[i].style.backgroundColor = "#FFEE00"
+          foreCard[i].style.color = "black";
+        } else if ( 101 <= aqiForecast && aqiForecast <= 150 ) {
+          foreCard[i].style.backgroundColor = "#FF8800"
+          foreCard[i].style.color = "#fff";
+        } else if ( 151 <= aqiForecast && aqiForecast <= 200 ) {
+          foreCard[i].style.backgroundColor = "#CC0A1A"
+          foreCard[i].style.color = "#fff";
+        }
+      }
       
       if ( 0 <= aqiValue && aqiValue <= 50 ) {
         aplDisplay.textContent = "Good";
@@ -64,6 +95,7 @@ function apiCall() {
       } else if ( 151 <= aqiValue && aqiValue <= 200 ) {
         aplDisplay.textContent = "Unhealthy";
         aqiDisplay.style.backgroundColor = "#CC0A1A";
+        aqiDisplay.style.color = "#fff";
         healthDisplay.textContent = "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects";
         bgFillOne.style.fill = "#CC0A1A";
         bgFillTwo.style.fill = "#8A1A23";

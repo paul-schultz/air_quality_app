@@ -14,6 +14,21 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+.logo {
+    width: 50vw;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.logo img {
+    width: 50vw;
+}
+
+.logo h2 {
+    color: #fff;
+    text-align: center;
+}
+
 .background svg.bg-1, 
 .background svg.bg-2, 
 .background svg.bg-3 {
@@ -90,20 +105,6 @@ body {
     opacity: .85;
 }
 /* End Cloud Animations */
-
-.logo {
-    width: 50vw;
-    margin: auto;
-}
-
-.logo img {
-    width: 50vw;
-}
-
-.logo h2 {
-    color: #fff;
-    text-align: center;
-}
 
 .input {
     position: absolute;
@@ -203,7 +204,6 @@ input:focus::-webkit-input-placeholder {
 }
 
 .fore-card {
-    background-color: #CC0033;
     padding: .4em;
     border-radius: 5px;
     text-decoration: none;
