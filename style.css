@@ -47,7 +47,7 @@ body {
     to   { transform: translate(1200px, 300px); }
 }
 @keyframes animateCloudTwo {
-    from { transform: translate(-500px, 0px); }
+    from { transform: translate(-1500px, 0px); }
     to   { transform: translate(1200px, 0px); }
 }
 @keyframes animateCloudThree {
@@ -60,14 +60,14 @@ body {
 }
 .c1 {
     animation: animateCloudOne 30s linear infinite;
-    animation-delay: 10s;
+    /* animation-delay: 10s; */
     animation-fill-mode: initial; 
     z-index: 0;
     position: relative;
     opacity: .85;
 }
 .c2 {
-    animation: animateCloudTwo 30s linear infinite;
+    animation: animateCloudTwo 40s linear infinite;
     animation-fill-mode: initial; 
     z-index: -2;
     position: relative;
