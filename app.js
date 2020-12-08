@@ -1,20 +1,93 @@
-function apiCall() {
-  // DOM elements
-  let forecastHeader = document.querySelector("#forecast-header");
-  let aqiDisplay = document.querySelector("#aqi-display");
-  let cityDisplay = document.querySelector("#city-display");
-  let cigDisplay = document.querySelector("#cig-display");
-  let aplDisplay = document.querySelector("#apl-display");
-  let healthDisplay = document.querySelector("#health-display");
-  let bgFillOne = document.querySelector("#bg-fill-1");
-  let bgFillTwo = document.querySelector("#bg-fill-2");
-  let bgFillThree = document.querySelector("#bg-fill-3");
-  let body = document.querySelector("#body");
-  let cloudFill = document.getElementsByClassName("cloud-fill");
-  let foreCard = document.getElementsByClassName("fore-card");
-  let foreDay = document.getElementsByClassName("fore-day");
-  let output = document.querySelector('#output')
+// DOM elements
+let forecastHeader = document.querySelector("#forecast-header");
+let aqiDisplay = document.querySelector("#aqi-display");
+let cityDisplay = document.querySelector("#city-display");
+let cigDisplay = document.querySelector("#cig-display");
+let aplDisplay = document.querySelector("#apl-display");
+let healthDisplay = document.querySelector("#health-display");
+let bgFill = document.getElementsByClassName("bg-fill");
+let body = document.querySelector("#body");
+let cloudFill = document.getElementsByClassName("cloud-fill");
+let foreCard = document.getElementsByClassName("fore-card");
+let foreDay = document.getElementsByClassName("fore-day");
+let output = document.querySelector("#output");
 
+function goodDisplay() {
+  aplDisplay.textContent = "Good";
+  aqiDisplay.style.backgroundColor = "#066613";
+  aqiDisplay.style.color = "#fff";
+  healthDisplay.textContent =
+    "Air quality is considered satisfactory, and air pollution poses little or no risk";
+  for (var i = 0; i <= bgFill.length - 1; i++) {
+    bgFill[i].firstElementChild.classList.remove(
+      ...bgFill[i].firstElementChild.classList
+    );
+    bgFill[i].firstElementChild.classList.add(`bg${i + 1}-fill-green`);
+  }
+  body.classList.remove(...body.classList);
+  body.classList.add("sky-blue");
+  for (var i = 0; i <= cloudFill.length - 1; i++) {
+    cloudFill[i].style.fill = "#fff";
+  }
+}
+
+function moderateDiplay() {
+  aplDisplay.textContent = "Moderate";
+  aqiDisplay.style.backgroundColor = "#FFEE00";
+  aqiDisplay.style.color = "black";
+  healthDisplay.textContent =
+    "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.";
+  for (var i = 0; i <= bgFill.length - 1; i++) {
+    bgFill[i].firstElementChild.classList.remove(
+      ...bgFill[i].firstElementChild.classList
+    );
+    bgFill[i].firstElementChild.classList.add(`bg${i + 1}-fill-yellow`);
+  }
+  body.classList.remove(...body.classList);
+  body.classList.add("sky-blue");
+  for (var i = 0; i <= cloudFill.length - 1; i++) {
+    cloudFill[i].style.fill = "#B9B9B9";
+  }
+}
+
+function sensitiveDisplay() {
+  aplDisplay.textContent = "Unhealthy for Sensitive Groups";
+  aqiDisplay.style.backgroundColor = "#FF8800";
+  healthDisplay.textContent =
+    "Members of sensitive groups may experience health effects. The general public is not likely to be affected.";
+  for (var i = 0; i <= bgFill.length - 1; i++) {
+    bgFill[i].firstElementChild.classList.remove(
+      ...bgFill[i].firstElementChild.classList
+    );
+    bgFill[i].firstElementChild.classList.add(`bg${i + 1}-fill-orange`);
+  }
+  body.classList.remove(...body.classList);
+  body.classList.add("sky-orange");
+  for (var i = 0; i <= cloudFill.length - 1; i++) {
+    cloudFill[i].style.fill = "#747474";
+  }
+}
+
+function unhealthyDisplay() {
+  aplDisplay.textContent = "Unhealthy";
+  aqiDisplay.style.backgroundColor = "#CC0A1A";
+  aqiDisplay.style.color = "#fff";
+  healthDisplay.textContent =
+    "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects";
+  for (var i = 0; i <= bgFill.length - 1; i++) {
+    bgFill[i].firstElementChild.classList.remove(
+      ...bgFill[i].firstElementChild.classList
+    );
+    bgFill[i].firstElementChild.classList.add(`bg${i + 1}-fill-red`);
+  }
+  body.classList.remove(...body.classList);
+  body.classList.add("sky-red");
+  for (var i = 0; i <= cloudFill.length - 1; i++) {
+    cloudFill[i].style.fill = "#747474";
+  }
+}
+
+function apiCall() {
   // Input
   var input = document.querySelector("#city-name").value;
   let inputSplit = input.split(",");
@@ -25,7 +98,7 @@ function apiCall() {
   axios
     .get(`https://api.waqi.info/feed/${city}/?token=${key}`)
     .then((result) => {
-      output.classList.add('output-visible')
+      output.classList.add("output-visible");
 
       const aqiValue = result.data.data.aqi;
       var cig = (Math.round((aqiValue / 22) * 100) / 100).toFixed(2);
@@ -35,10 +108,11 @@ function apiCall() {
       aqiDisplay.textContent = `AQI: ${aqiValue}`;
       cigDisplay.textContent = `A day's worth of exposure to air with an AQI of ${aqiValue} is the equivalent of smoking ${cig} cigarettes.`;
 
+      // Iterate through forecast Cards
       for (var i = 0, j = 2; i <= foreCard.length - 1; i++, j++) {
-        // aqi forecast value
+        // aqi forecast JSON value
         var aqiForecast = result.data.data.forecast.daily.pm25[j].avg;
-        // date values
+        // date JSON values
         var date = result.data.data.forecast.daily.pm25[j].day;
         var dateSplit = date.split("-");
         var month = dateSplit[1];
@@ -63,72 +137,13 @@ function apiCall() {
       }
 
       if (0 <= aqiValue && aqiValue <= 50) {
-        aplDisplay.textContent = "Good";
-        aqiDisplay.style.backgroundColor = "#066613";
-        aqiDisplay.style.color = "#fff";
-        healthDisplay.textContent =
-          "Air quality is considered satisfactory, and air pollution poses little or no risk";
-        bgFillOne.classList.remove(...bgFillOne.classList);
-        bgFillTwo.classList.remove(...bgFillTwo.classList);
-        bgFillThree.classList.remove(...bgFillThree.classList);
-        bgFillOne.classList.add("bg1-fill-green");
-        bgFillTwo.classList.add("bg2-fill-green");
-        bgFillThree.classList.add("bg3-fill-green");
-        body.classList.remove(...body.classList);
-        body.classList.add("sky-blue");
-        for (var i = 0; i <= cloudFill.length - 1; i++) {
-          cloudFill[i].style.fill = "#fff";
-        }
+        goodDisplay();
       } else if (51 <= aqiValue && aqiValue <= 100) {
-        aplDisplay.textContent = "Moderate";
-        aqiDisplay.style.backgroundColor = "#FFEE00";
-        aqiDisplay.style.color = "black";
-        healthDisplay.textContent =
-          "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.";
-        bgFillOne.classList.remove(...bgFillOne.classList);
-        bgFillTwo.classList.remove(...bgFillTwo.classList);
-        bgFillThree.classList.remove(...bgFillThree.classList);
-        bgFillOne.classList.add("bg1-fill-yellow");
-        bgFillTwo.classList.add("bg2-fill-yellow");
-        bgFillThree.classList.add("bg3-fill-yellow");
-        body.classList.remove(...body.classList);
-        body.classList.add("sky-blue");
-        for (var i = 0; i <= cloudFill.length - 1; i++) {
-          cloudFill[i].style.fill = "#B9B9B9";
-        }
+        moderateDiplay();
       } else if (101 <= aqiValue && aqiValue <= 150) {
-        aplDisplay.textContent = "Unhealthy for Sensitive Groups";
-        aqiDisplay.style.backgroundColor = "#FF8800";
-        healthDisplay.textContent =
-          "Members of sensitive groups may experience health effects. The general public is not likely to be affected.";
-        bgFillOne.classList.remove(...bgFillOne.classList);
-        bgFillTwo.classList.remove(...bgFillTwo.classList);
-        bgFillThree.classList.remove(...bgFillThree.classList);
-        bgFillOne.classList.add("bg1-fill-orange");
-        bgFillTwo.classList.add("bg2-fill-orange");
-        bgFillThree.classList.add("bg3-fill-orange");
-        body.classList.remove(...body.classList);
-        body.classList.add("sky-orange");
-        for (var i = 0; i <= cloudFill.length - 1; i++) {
-          cloudFill[i].style.fill = "#747474";
-        }
+        sensitiveDisplay();
       } else if (151 <= aqiValue && aqiValue <= 200) {
-        aplDisplay.textContent = "Unhealthy";
-        aqiDisplay.style.backgroundColor = "#CC0A1A";
-        aqiDisplay.style.color = "#fff";
-        healthDisplay.textContent =
-          "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects";
-        bgFillOne.classList.remove(...bgFillOne.classList);
-        bgFillTwo.classList.remove(...bgFillTwo.classList);
-        bgFillThree.classList.remove(...bgFillThree.classList);
-        bgFillOne.classList.add("bg1-fill-red");
-        bgFillTwo.classList.add("bg2-fill-red");
-        bgFillThree.classList.add("bg3-fill-red");
-        body.classList.remove(...body.classList);
-        body.classList.add("sky-red");
-        for (var i = 0; i <= cloudFill.length - 1; i++) {
-          cloudFill[i].style.fill = "#747474";
-        }
+        unhealthyDisplay();
       }
     });
 }
