@@ -11,6 +11,9 @@ let cloudFill = document.getElementsByClassName("cloud-fill");
 let foreCard = document.getElementsByClassName("fore-card");
 let foreDay = document.getElementsByClassName("fore-day");
 let output = document.querySelector("#output");
+let error = document.querySelector('#error');
+let errorMsg = document.querySelector('#error-msg');
+
 
 function goodDisplay() {
   aplDisplay.textContent = "Good";
@@ -18,7 +21,7 @@ function goodDisplay() {
   aqiDisplay.style.color = "#fff";
   healthDisplay.textContent =
     "Air quality is considered satisfactory, and air pollution poses little or no risk";
-  for (var i = 0; i <= bgFill.length - 1; i++) {
+  for (var i = 0; i <= 2; i++) {
     bgFill[i].firstElementChild.classList.remove(
       ...bgFill[i].firstElementChild.classList
     );
@@ -37,7 +40,7 @@ function moderateDiplay() {
   aqiDisplay.style.color = "black";
   healthDisplay.textContent =
     "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.";
-  for (var i = 0; i <= bgFill.length - 1; i++) {
+  for (var i = 0; i <= 2; i++) {
     bgFill[i].firstElementChild.classList.remove(
       ...bgFill[i].firstElementChild.classList
     );
@@ -55,7 +58,7 @@ function sensitiveDisplay() {
   aqiDisplay.style.backgroundColor = "#FF8800";
   healthDisplay.textContent =
     "Members of sensitive groups may experience health effects. The general public is not likely to be affected.";
-  for (var i = 0; i <= bgFill.length - 1; i++) {
+  for (var i = 0; i <= 2; i++) {
     bgFill[i].firstElementChild.classList.remove(
       ...bgFill[i].firstElementChild.classList
     );
@@ -74,7 +77,7 @@ function unhealthyDisplay() {
   aqiDisplay.style.color = "#fff";
   healthDisplay.textContent =
     "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects";
-  for (var i = 0; i <= bgFill.length - 1; i++) {
+  for (var i = 0; i <= 2; i++) {
     bgFill[i].firstElementChild.classList.remove(
       ...bgFill[i].firstElementChild.classList
     );
@@ -98,9 +101,17 @@ function apiCall() {
   axios
     .get(`https://api.waqi.info/feed/${city}/?token=${key}`)
     .then((result) => {
+      error.classList.remove('error-visible')
+      const aqiValue = result.data.data.aqi;
+
+      if (aqiValue == undefined) {
+        error.classList.add('error-visible');
+        errorMsg.textContent = `Sorry, we couldn't fetch any AQI data for ${input}. Check for typos or try a larger city nearby.`;
+        return 
+      }
+      
       output.classList.add("output-visible");
 
-      const aqiValue = result.data.data.aqi;
       var cig = (Math.round((aqiValue / 22) * 100) / 100).toFixed(2);
 
       forecastHeader.textContent = "Forecast:";
@@ -133,7 +144,13 @@ function apiCall() {
         } else if (151 <= aqiForecast && aqiForecast <= 200) {
           foreCard[i].style.backgroundColor = "#CC0A1A";
           foreCard[i].style.color = "#fff";
-        }
+        } else if (201 <= aqiForecast && aqiForecast <= 250) {
+          foreCard[i].style.backgroundColor = "#8137AA";
+          foreCard[i].style.color = "#fff";
+        } else {
+          foreCard[i].style.backgroundColor = "#933751";
+          foreCard[i].style.color = "#fff";
+        } 
       }
 
       if (0 <= aqiValue && aqiValue <= 50) {
